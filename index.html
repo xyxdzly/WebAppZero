@@ -1,0 +1,62 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>car wash web app</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="description" content="">
+
+  <meta property="og:title" content="">
+  <meta property="og:type" content="">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/icon.svg" type=" ng">
+
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body>
+  <h1>car wash web app</h1>
+  <h2>Buy a car wash pass for now with only 5.99! You can enjoy:</h2>
+  <li>Get a bottle of Window Glass Water immediately!</li>
+  <li>Direct access without waiting!</li>
+  <li>Enjoy a wide range of discounts!</li>
+  <script src="functions.js"></script>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  Reigster: (if you not have an account)
+  <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="Rusername" type="text" name="Rusername"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="Rpassword" type="password" name="Rpassword">
+            </label>
+            <input type="submit" value="Post">
+  </form>
+  Login: (if you have an account)
+  <form action="/login" method="post" enctype="application/x-www-form-urlencoded">
+            <label>Username:
+                <input id="Lusername" type="text" name="Lusername"/>
+            </label>
+            <br/>
+            <label>Password:&nbsp;
+                <input id="Lpassword" type="password" name="Lpassword">
+            </label>
+            <input type="submit" value="Post">
+  </form>
+   Log out:
+        <form action="/logout" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="submit" value="Log out">
+        </form>
+
