@@ -30,28 +30,30 @@ def serve_root():
 
 @app.route('/register', methods=['POST'])
 def serve_register():
-    username=flask.request.cookies.get('Rusername')
-    password=flask.request.cookies.get('Rpassword')
+    username=flask.request.form.get('Rusername')
+    password=flask.request.form.get('Rpassword')
     salt=bcrypt.gensalt()
     #为密码的加密增加salt
     if(user_collection.find_one({"username":username}) is None):
-        user_collection.insert_one({"username":username,"passwprd":bcrypt.hashpw(password.encode(),salt)})
-    return flask.render_template('index.html')
+        user_collection.insert_one({"username":username,"password":bcrypt.hashpw(password.encode("utf-8"),salt)})
+    return flask.redirect(flask.url_for('serve_root'))
+
 @app.route('/login', methods=['POST'])
 def serve_login():
-    username = flask.request.cookies.get('Lusername')
-    password = flask.request.cookies.get('Lpassword')
+    username = flask.request.form.get('Lusername')
+    password = flask.request.form.get('Lpassword')
     auth_token=random.randint(1,100000000000000000000)
-    hashed_token=hashlib.sha256(str(auth_token).encode().digest())
+    hashed_token=hashlib.sha256(str(auth_token).encode()).digest()
     if(user_collection.find_one({"username":username}) is not None):
         user=user_collection.find_one({"username":username})
+        for i in range(10):
+            print(user)
         if bcrypt.checkpw(password.encode(),user["password"]):
             user_collection.update_one({"username": username}, {'$set': {"auth_token": hashed_token}})
-            return flask.render_template('index.html',auth_token=auth_token)
+            # return flask.render_template('index.html',auth_token=auth_token)
+    return flask.redirect(flask.url_for('serve_root'))
 
-    return flask.render_template('index.html')
-
-@app.route('/logout')
+@app.route('/logout',methods=['POST'])
 def serve_logout():
     auth_token=flask.request.cookies.get('auth_token')
     if auth_token:
@@ -60,7 +62,7 @@ def serve_logout():
             usernameindb = user_collection.find_one({"auth_token": hashed_token})
             username = usernameindb["username"]
             user_collection.update_one({"username": username}, {'$unset': {"auth_token": hashed_token}})
-    return flask.render_template('index.html')
+    return flask.redirect(flask.url_for('serve_root'))
 
 
 
@@ -68,4 +70,4 @@ def serve_logout():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=8080)
