@@ -13,7 +13,7 @@ mongo_client = MongoClient("mongo")
 db = mongo_client["carwashapp"]
 chat_collection = db["chat"]
 user_collection = db["user"]
-
+1111
 app = Flask(__name__)
 
 #给root path 发送response
